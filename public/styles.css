@@ -16,14 +16,14 @@ body, html {
 
 input {
     border: none;
-    padding: 5px 10px;
+    padding: 5px 0;
 }
 
 button {
     display: block;
-    margin: 9px auto auto auto;
+    width: 100%;
     background: steelblue;
-    border-radius: 15%;
+    border-radius: 5px;
     color: white;
     padding: 5px 10px;
 }
@@ -40,4 +40,15 @@ hr {
     width: 70%;
     margin: 0 auto;
     text-align: center;
+}
+
+.form {
+    margin: 0 auto;
+    display: block;
+    width: 20%;
+}
+
+.form input {
+    display: block;
+    width: 100%;
 }

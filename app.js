@@ -8,6 +8,11 @@ var passport = require("passport");
 var LocalStrategy = require("passport-local");
 var Movie = require("./models/movie.js");
 var User = require("./models/user.js");
+var middleware = require("./middleware");
+
+//REQUIRE ROUTES
+var indexRoutes = require("./routes/index.js");
+var searchRoutes = require("./routes/search.js")
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
@@ -31,29 +36,11 @@ app.get("/", function(req,res) {
     res.render("home");
 });
 
-app.get("/search", function(req,res) {
-    var searchTerm = "http://www.omdbapi.com/?s=" + req.query.title + "&apikey=" + process.env.APIKEY;
-    request(searchTerm, function(error, response, body) {
-        if (!error && response.statusCode === 200) {
-            var data = JSON.parse(body);
-            res.render("result", {dataObj: data});
-        }
-        else console.log(error);
-    });
-});
+//ROUTES
+app.use(indexRoutes);
+app.use(searchRoutes);
 
-app.get("/search/:id", function(req,res) {
-    var searchTerm = "http://www.omdbapi.com/?i=" + req.params.id + "&apikey=" + process.env.APIKEY;
-    request(searchTerm, function(err, response, body) {
-        if (!err && response.statusCode === 200) {
-            var data = JSON.parse(body);
-            console.log(data);
-            res.render("movie", {dataObj: data});
-        }
-        else console.log(err);
-    });
-});
-
+//LISTENER
 app.listen(process.env.PORT, process.env.IP, function() {
     console.log("Server is running");
 });
