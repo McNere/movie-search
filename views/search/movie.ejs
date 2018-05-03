@@ -12,6 +12,8 @@
 	<% } %>
 
 	<form action="/search/<%= movie.imdbID %>" method="POST">
+		<input type="hidden" name="title" value="<%= movie.Title %>">
+		<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
 		<button>Add to list</button>
 	</form>
 </div>

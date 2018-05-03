@@ -27,7 +27,7 @@ router.get("/search/:id", function(req,res) {
                 if (err) {
                     console.log(err);
                 } else {
-                    res.render("search/movie", {movie: data, users: movie}); //passes in movie data and data about users
+                    res.render("search/movie", {movie: data, users: movie}); //passes in movie data and data about users (if applicable)
                 }
             });
         }
@@ -39,42 +39,32 @@ router.post("/search/:id", middleware.isLoggedIn, function(req,res) {
     var searchTerm = "http://www.omdbapi.com/?i=" + req.params.id +
     "&apikey=" + process.env.APIKEY;
     Movie.findOne({imdbId: req.params.id}, function(err, foundMovie) { //check if movie already is in database
-        console.log(foundMovie);
         if (err) {
             console.log(err);
-        } else {
-            request(searchTerm, function(err, response, body) { //request data from API
-                if (!err && response.statusCode === 200) {
-                    var data = JSON.parse(body);
-                    var newObj = {
-                        imdbId: data.imdbID,
-                        title: data.Title,
-                        usersLiked: [{
-                            _id: req.user._id,
-                            username: req.user.username
-                        }]
-                    }
-                    if (!foundMovie) { //log movie in database if not found
-                        Movie.create(newObj, function(err, movie) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                console.log(movie);
-                                // User.byIdAndUpdate(req.user._id, function(err, user) {
-                                //     if (err) {
-                                //         console.log(err);
-                                //     } else {
-                                //         user.likedMovies.push({id: movie._id, title: movie.title});
-                                //     }
-                                // })
-                                res.redirect("back");
-                            }
-                        });
-                    } else {
-                        res.redirect("back");
-                    }
+        } else if (!foundMovie) { //logs the movie in database if it doesn't exist
+            var movieObj = {
+                title: req.body.title,
+                imdbId: req.body.imdbID,
+                usersLiked: [{
+                    _id: req.user._id,
+                    username: req.user.username
+                }]
+            }
+            Movie.create(movieObj, function(err, movie) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    User.findById(req.user._id, function(err, user) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            user.likedMovies.push(movie);
+                            user.save();
+                        }
+                    });
+                    res.redirect("/");
                 }
-            });
+            })
         }
     });
         

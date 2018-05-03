@@ -33,6 +33,7 @@ passport.deserializeUser(User.deserializeUser());
 mongoose.connect(process.env.DB_URL);
 
 app.get("/", function(req,res) {
+	console.log(req.user);
     res.render("home");
 });
 
