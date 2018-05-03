@@ -2,14 +2,18 @@
 
 <% var results = dataObj["Search"]; %>
 <div id="resultbox">
-    <% results.forEach(function(movie) { %>
-        <h1> <%= movie["Title"] %></h1>
-        <p>Year: <%= movie["Year"] %></p>
-        <% if (movie["Poster"].match(/^http/g)) { %>
-            <a href="/search/<%= movie["imdbID"] %>" target=".blank"><img src= <%= movie["Poster"]%> ></a>
-        <% } %>
-        <hr>
-    <% }); %>
+	<% if (results) { %>
+	    <% results.forEach(function(movie) { %>
+	        <h1> <%= movie["Title"] %></h1>
+	        <p>Year: <%= movie["Year"] %></p>
+	        <% if (movie["Poster"].match(/^http/g)) { %>
+	            <a href="/search/<%= movie["imdbID"] %>" target=".blank"><img src= <%= movie["Poster"]%> ></a>
+	        <% } %>
+	        <hr>
+	    <% }); %>
+    <% } else { %>
+    	<h1>Your search yielded no results</h1>
+    <% } %>
 </div>
 
 <% include ../partials/footer %>
