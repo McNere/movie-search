@@ -3,7 +3,6 @@ var mongoose = require("mongoose");
 var movieSchema = new mongoose.Schema({
 	imdbId: String,
 	title: String,
-	year: String,
 	usersLiked: [{
 		id: {
 			type: mongoose.Schema.Types.ObjectId,

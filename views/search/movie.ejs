@@ -1,7 +1,19 @@
 <% include ../partials/header %>
 
 <div id="resultbox">
-	<%= dataObj %>
+	<% if (movie) { %>
+		<h1><%= movie.Title %></h1>
+		<p>Year: <%= movie.Year %></p>
+		<img src="<%= movie.Poster %>">
+		<p>Director: <%= movie.Director %></p>
+		<p>Actors: <%= movie.Actors %></p>
+		<p>Genre: <%= movie.Genre %></p>
+		<p><%= movie.Plot %></p>
+	<% } %>
+
+	<form action="/search/<%= movie.imdbID %>" method="POST">
+		<button>Add to list</button>
+	</form>
 </div>
 
 <% include ../partials/footer %>
