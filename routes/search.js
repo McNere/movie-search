@@ -44,7 +44,7 @@ router.post("/search/:id", middleware.isLoggedIn, function(req,res) {
         } else if (!foundMovie) { //logs the movie in database if it doesn't exist
             var movieObj = {
                 title: req.body.title,
-                imdbId: req.body.imdbID,
+                imdbId: req.body.imdbId,
                 usersLiked: [{
                     _id: req.user._id,
                     username: req.user.username
@@ -64,7 +64,24 @@ router.post("/search/:id", middleware.isLoggedIn, function(req,res) {
                     });
                     res.redirect("/");
                 }
-            })
+            });
+            //logs as liked movie in user's db object if it's not already there
+        } else {
+            User.findById(req.user._id, function(err, user) {
+                var found = false;
+                user.likedMovies.forEach(function(mov) {
+                    if (mov._id.equals(foundMovie._id)) {
+                        found = true;
+                    }
+                });
+                if (found) {
+                    res.redirect("/");
+                } else {
+                    user.likedMovies.push(foundMovie);
+                    user.save();
+                    res.redirect("/");
+                }
+            });
         }
     });
         
