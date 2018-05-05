@@ -35,56 +35,31 @@ router.get("/search/:id", function(req,res) {
     });
 });
 
-router.post("/search/:id", middleware.isLoggedIn, function(req,res) {
-    var searchTerm = "http://www.omdbapi.com/?i=" + req.params.id +
-    "&apikey=" + process.env.APIKEY;
-    Movie.findOne({imdbId: req.params.id}, function(err, foundMovie) { //check if movie already is in database
-        if (err) {
+router.post("/search/:id", middleware.isLoggedIn, middleware.logMovie, function(req,res) {
+    Movie.findOne({imdbId: req.body.imdbId}, function(err, foundMovie) {
+        if (err || !foundMovie) {
             console.log(err);
-        } else if (!foundMovie) { //logs the movie in database if it doesn't exist
-            var movieObj = {
-                title: req.body.title,
-                imdbId: req.body.imdbId,
-                usersLiked: [{
-                    _id: req.user._id,
-                    username: req.user.username
-                }]
-            }
-            Movie.create(movieObj, function(err, movie) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    User.findById(req.user._id, function(err, user) {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            user.likedMovies.push(movie);
-                            user.save();
-                        }
-                    });
-                    res.redirect("/");
-                }
-            });
-            //logs as liked movie in user's db object if it's not already there
+            res.redirect("/");
         } else {
-            User.findById(req.user._id, function(err, user) {
-                var found = false;
-                user.likedMovies.forEach(function(mov) {
-                    if (mov._id.equals(foundMovie._id)) {
-                        found = true;
-                    }
-                });
-                if (found) {
-                    res.redirect("/");
-                } else {
-                    user.likedMovies.push(foundMovie);
-                    user.save();
-                    res.redirect("/");
-                }
-            });
+            //checks if user is in movie's favorited list and adds if they aren't
+            var userCheck = foundMovie.usersLiked.filter(function(user) { return user.username === req.user.username });
+            if (!userCheck[0]) {
+                foundMovie.usersLiked.push(req.user);
+                foundMovie.save();
+            }
         }
+        //checks if movie is on user's list and adds if it isn't
+        User.findById(req.user._id).where("likedMovies.imdbId").ne(foundMovie.imdbId).exec(function(err, foundUser) {
+            if (err) {
+                console.log(err);
+                res.redirect("/");
+            } else if (foundUser) {
+                foundUser.likedMovies.push(foundMovie);
+                foundUser.save();
+            }
+            res.redirect("back");
+        });
     });
-        
 });
 
 module.exports = router;
