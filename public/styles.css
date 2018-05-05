@@ -73,19 +73,24 @@ hr {
     padding: 0;
 }
 
-#navlist {
+.navlist {
     list-style: none;
     display: block;
     height: 100%;
     margin: 0;
 }
 
-#navlist li {
+.navlist li {
     float: right;
     height: 100%;
 }
 
-#navlist a {
+.navlist li.left {
+    float: left;
+    height: 100%;
+}
+
+.navlist a {
     display: inline-block;
     text-decoration: none;
     height: 100%;
@@ -95,14 +100,14 @@ hr {
     transition: all .5s;
 }
 
-#navlist p {
+.navlist p {
     color: black;
     line-height: 60px;
     margin: 0 20px 0 0;
     padding: 0;
 }
 
-#navlist a:hover {
+.navlist a:hover {
     background-color: rgba(200,200,200,.5);
 }
 
