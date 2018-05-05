@@ -10,7 +10,13 @@
 		<p>Genre: <%= movie.Genre %></p>
 		<p><%= movie.Plot %></p>
 	<% } %>
-
+	
+	<% if (users && users.usersLiked[0]) { %>
+		<% users.usersLiked.forEach(function(user) { %>
+			<p><%= user.username%></p>
+		<% }); %>
+	<% } %>
+	
 	<form action="/search/<%= movie.imdbID %>" method="POST">
 		<input type="hidden" name="title" value="<%= movie.Title %>">
 		<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
