@@ -10,9 +10,20 @@ body, html {
 }
 
 #container {
-    margin: 20% auto 0 auto;
-    width: 50%;
+    margin: 15% auto 0 auto;
+    width: 250px;
     text-align: center;
+}
+
+#container input {
+    display:block;
+    width: 100%;
+    margin: 10px auto;
+    text-indent: 5px;
+}
+
+.searchbtn {
+    border: none;
 }
 
 input {
@@ -20,7 +31,7 @@ input {
     padding: 5px 0;
 }
 
-button {
+.userbtn {
     display: block;
     width: 100%;
     background: steelblue;
@@ -56,10 +67,9 @@ hr {
 
 #navbar {
     width: 100%;
-    background-color: white;
     position: relative;
     top: 0;
-    height: 80px;
+    height: 60px;
     padding: 0;
 }
 
@@ -79,11 +89,31 @@ hr {
     display: inline-block;
     text-decoration: none;
     height: 100%;
-    width: 100px;
+    width: 150px;
     text-align: center;
-    line-height: 80px;
+    line-height: 60px;
+    transition: all .5s;
+}
+
+#navlist p {
+    color: black;
+    line-height: 60px;
+    margin: 0 20px 0 0;
+    padding: 0;
 }
 
 #navlist a:hover {
-    background-color: #DDD;
+    background-color: rgba(200,200,200,.5);
+}
+
+.userbox {
+    text-align: left;
+    margin: 0 auto;
+    width: 70%;
+}
+
+.addbtn {
+    display: block;
+    margin: 20px auto;
+    width: 100px;
 }

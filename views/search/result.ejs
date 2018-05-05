@@ -7,7 +7,7 @@
 	        <h1> <%= movie["Title"] %></h1>
 	        <p>Year: <%= movie["Year"] %></p>
 	        <% if (movie["Poster"].match(/^http/g)) { %>
-	            <a href="/search/<%= movie["imdbID"] %>" target=".blank"><img src= <%= movie["Poster"]%> ></a>
+	            <a href="/search/<%= movie["imdbID"] %>"><img src= <%= movie["Poster"]%> ></a>
 	        <% } %>
 	        <hr>
 	    <% }); %>

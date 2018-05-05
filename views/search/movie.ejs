@@ -3,25 +3,30 @@
 <div id="resultbox">
 	<% if (movie) { %>
 		<h1><%= movie.Title %></h1>
-		<p>Year: <%= movie.Year %></p>
+		<p><strong>Year:</strong> <%= movie.Year %></p>
 		<img src="<%= movie.Poster %>">
-		<p>Director: <%= movie.Director %></p>
-		<p>Actors: <%= movie.Actors %></p>
-		<p>Genre: <%= movie.Genre %></p>
+		<p><strong>Director:</strong> <%= movie.Director %></p>
+		<p><strong>Actors:</strong> <%= movie.Actors %></p>
+		<p><strong>Genre:</strong> <%= movie.Genre %></p>
 		<p><%= movie.Plot %></p>
 	<% } %>
-	
-	<% if (users && users.usersLiked[0]) { %>
-		<% users.usersLiked.forEach(function(user) { %>
-			<p><%= user.username%></p>
-		<% }); %>
-	<% } %>
-	
-	<form action="/search/<%= movie.imdbID %>" method="POST">
-		<input type="hidden" name="title" value="<%= movie.Title %>">
-		<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
-		<button>Add to list</button>
-	</form>
 </div>
+	
+<% if (users && users.usersLiked[0]) { %>
+	<div class="userbox">
+		<hr>
+		<h3>Users who likes <%= movie.Title %></h3>
+		<% users.usersLiked.forEach(function(user) { %>
+			<p><%= user.username %></p>
+		<% }); %>
+	</div>
+<% } %>
+	
+<form action="/search/<%= movie.imdbID %>" method="POST">
+	<input type="hidden" name="title" value="<%= movie.Title %>">
+	<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
+	<button class="addbtn">Add to list</button>
+</form>
+
 
 <% include ../partials/footer %>
