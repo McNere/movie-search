@@ -23,11 +23,12 @@ router.get("/search/:id", function(req,res) {
     request(searchTerm, function(err, response, body) { //request data from API
         if (!err && response.statusCode === 200) {
             var data = JSON.parse(body);
-            Movie.findOne({imdbId: data.imdbID}, function(err, movie) { //check if movie exists in database
+            User.find({}).where("likedMovies.imdbId").equals(data.imdbID).exec(function(err, users) {
                 if (err) {
                     console.log(err);
+                    res.redirect("/");
                 } else {
-                    res.render("search/movie", {movie: data, users: movie}); //passes in movie data and data about users (if applicable)
+                    res.render("search/movie", {movie: data, users: users});
                 }
             });
         }
@@ -35,30 +36,16 @@ router.get("/search/:id", function(req,res) {
     });
 });
 
-router.post("/search/:id", middleware.isLoggedIn, middleware.logMovie, function(req,res) {
-    Movie.findOne({imdbId: req.body.imdbId}, function(err, foundMovie) {
-        if (err || !foundMovie) {
+router.post("/search/:id", middleware.isLoggedIn, function(req,res) {
+    User.findById(req.user._id).where("likedMovies.imdbId").ne(req.body.imdbId).exec(function(err, foundUser) {
+        if (err) {
             console.log(err);
             res.redirect("/");
-        } else {
-            //checks if user is in movie's favorited list and adds if they aren't
-            var userCheck = foundMovie.usersLiked.filter(function(user) { return user.username === req.user.username });
-            if (!userCheck[0]) {
-                foundMovie.usersLiked.push(req.user);
-                foundMovie.save();
-            }
+        } else if (foundUser) {
+            foundUser.likedMovies.push({title: req.body.title, imdbId: req.body.imdbId});
+            foundUser.save();
         }
-        //checks if movie is on user's list and adds if it isn't
-        User.findById(req.user._id).where("likedMovies.imdbId").ne(foundMovie.imdbId).exec(function(err, foundUser) {
-            if (err) {
-                console.log(err);
-                res.redirect("/");
-            } else if (foundUser) {
-                foundUser.likedMovies.push(foundMovie);
-                foundUser.save();
-            }
-            res.redirect("back");
-        });
+        res.redirect("back");
     });
 });
 

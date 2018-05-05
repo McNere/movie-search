@@ -12,11 +12,11 @@
 	<% } %>
 </div>
 	
-<% if (users && users.usersLiked[0]) { %>
+<% if (users && users[0]) { %>
 	<div class="userbox">
 		<hr>
 		<h3>Users who likes <%= movie.Title %></h3>
-		<% users.usersLiked.forEach(function(user) { %>
+		<% users.forEach(function(user) { %>
 			<p><%= user.username %></p>
 		<% }); %>
 	</div>
