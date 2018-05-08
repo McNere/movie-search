@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 var request = require("request");
 var bodyParser = require("body-parser");
-var Movie = require("../models/movie.js");
 var middleware = require("../middleware");
 var User = require("../models/user.js");
 

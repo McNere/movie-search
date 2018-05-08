@@ -6,7 +6,6 @@ var dotenv = require("dotenv").config();
 var mongoose = require("mongoose");
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
-var Movie = require("./models/movie.js");
 var User = require("./models/user.js");
 var middleware = require("./middleware");
 
