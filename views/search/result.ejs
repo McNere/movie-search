@@ -1,10 +1,10 @@
 <% include ../partials/header %>
 
-<% var results = dataObj["Search"]; %>
-<div id="resultbox">
+<% const results = dataObj["Search"]; %>
+<div class="container text-center">
 	<% if (results) { %>
-	    <% results.forEach(function(movie) { %>
-	        <h1> <%= movie["Title"] %></h1>
+	    <% results.forEach((movie) => { %>
+	        <h2><a href="/search/<%= movie["imdbID"]%>"><%= movie["Title"] %></a></h1>
 	        <p>Year: <%= movie["Year"] %></p>
 	        <% if (movie["Poster"].match(/^http/g)) { %>
 	            <a href="/search/<%= movie["imdbID"] %>"><img src= <%= movie["Poster"]%> ></a>

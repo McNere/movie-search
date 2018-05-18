@@ -1,32 +1,46 @@
 <% include ../partials/header %>
 
-<div id="resultbox">
-	<% if (movie) { %>
-		<h1><%= movie.Title %></h1>
-		<p><strong>Year:</strong> <%= movie.Year %></p>
-		<img src="<%= movie.Poster %>">
-		<p><strong>Director:</strong> <%= movie.Director %></p>
-		<p><strong>Actors:</strong> <%= movie.Actors %></p>
-		<p><strong>Genre:</strong> <%= movie.Genre %></p>
-		<p><%= movie.Plot %></p>
-	<% } %>
-</div>
-	
-<% if (users && users[0]) { %>
-	<div class="userbox">
-		<hr>
-		<h3>Users who likes <%= movie.Title %></h3>
-		<% users.forEach(function(user) { %>
-			<p><%= user.username %></p>
-		<% }); %>
+<div class="container mt-2">
+	<div class="row">
+		<div class="col-4">
+			<img class="align-self-center mr-3" src="<%= movie.Poster %>">
+		</div>
+		<div class="col-8">
+			<h3 class="mt-0"><%= movie.Title %></h3>
+			<p><strong>Year:</strong> <%= movie.Year %></p>
+			<p><strong>Director:</strong> <%= movie.Director %></p>
+			<p><strong>Actors:</strong> <%= movie.Actors %></p>
+			<p><strong>Genre:</strong> <%= movie.Genre %></p>
+			<p><strong>Description:</strong></p>
+			<p><%= movie.Plot %></p>
+		</div>
 	</div>
-<% } %>
-	
-<form action="/search/<%= movie.imdbID %>" method="POST">
-	<input type="hidden" name="title" value="<%= movie.Title %>">
-	<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
-	<button class="addbtn">Add to list</button>
-</form>
+</div>
 
+<div class="container mt-5">
+<div class="row">
+	<div class="col-4">
+	<% if (users && users[0]) { %>
+			<h5>Users who like <%= movie.Title %></h5>
+			<ul class="list-group list-group-flush">
+				<% users.forEach((user) => { %>
+					<li class="list-group-item"><%= user.username %></li>
+				<% }); %>	
+			</ul>
+	<% } %>
+
+	<% if (currentuser) { %>
+		<form action="/search/<%= movie.imdbID %>" method="POST">
+			<input type="hidden" name="title" value="<%= movie.Title %>">
+			<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
+			<button class="btn btn-info mt-3">Like movie</button>
+		</form>
+	<% } %>
+	</div>
+	<div class="col-8">
+		<h3>Section for comments (coming soon)</h3>
+	</div>
+</div>
+</div>
 
 <% include ../partials/footer %>
