@@ -1,6 +1,6 @@
 var middleware = {};
 
-middleware.isLoggedIn = function(req,res,next) {
+middleware.isLoggedIn = (req,res,next) => {
     if (req.isAuthenticated()) {
         return next();
     } else {
