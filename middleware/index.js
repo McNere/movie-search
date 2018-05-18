@@ -1,4 +1,4 @@
-var middleware = {};
+const middleware = {};
 
 middleware.isLoggedIn = (req,res,next) => {
     if (req.isAuthenticated()) {
