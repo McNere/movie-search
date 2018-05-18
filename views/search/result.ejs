@@ -4,7 +4,7 @@
 <div class="container text-center">
 	<% if (results) { %>
 	    <% results.forEach((movie) => { %>
-	        <h2> <%= movie["Title"] %></h1>
+	        <h2><a href="/search/<%= movie["imdbID"]%>"><%= movie["Title"] %></a></h1>
 	        <p>Year: <%= movie["Year"] %></p>
 	        <% if (movie["Poster"].match(/^http/g)) { %>
 	            <a href="/search/<%= movie["imdbID"] %>"><img src= <%= movie["Poster"]%> ></a>

@@ -33,7 +33,7 @@
 		<form action="/search/<%= movie.imdbID %>" method="POST">
 			<input type="hidden" name="title" value="<%= movie.Title %>">
 			<input type="hidden" name="imdbId" value="<%= movie.imdbID %>">
-			<button class="btn btn-info mt-3">Add to list</button>
+			<button class="btn btn-info mt-3">Like movie</button>
 		</form>
 	<% } %>
 	</div>
@@ -42,7 +42,5 @@
 	</div>
 </div>
 </div>
-	
-
 
 <% include ../partials/footer %>
